@@ -151,11 +151,13 @@ namespace TimedPlaylists
         /// <param name="desiredLength">The length to give the algorithm</param>
         /// <param name="songs">The songs to give the algorithm</param>
         /// <returns></returns>
-        public static long ApproximateCountForInput(TimeSpan desiredLength, List<Song> songs)
+        public static double ApproximateCountForInput(TimeSpan desiredLength, List<Song> songs)
         {
-            TimeSpan averageLength = songs[0].Span;
+            var averageLength = songs[0].Span.TotalSeconds;
 
             if (songs.Count == 1) return averageLength;
+
+            return 0; // TODO
         }
 
 

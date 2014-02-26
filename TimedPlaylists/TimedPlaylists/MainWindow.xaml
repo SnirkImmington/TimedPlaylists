@@ -1,8 +1,35 @@
 ﻿<Window x:Class="TimedPlaylists.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Timed Playlists" Height="350" Width="525">
+        Title="Timed Playlists" Height="550" Width="925">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="42"/>
+            <RowDefinition/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Top bar -->
+        <StackPanel Orientation="Horizontal">
+            <Label Name="LabelDescription">Create playlist of a specific length, sorted by song name, song length, or created randomly!</Label>
+        </StackPanel>
+        
+        <!-- Middle part -->
+        
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Label Name="LabelTest1" Grid.Column="0">hi</Label>
+            <Label Name="LabelTest2" Grid.Column="1">hello</Label>
+        </Grid>
+        
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Button Name="ButtonCreate" HorizontalAlignment="Center" Height="30" Margin="40,0" Padding="8,0">Create</Button>
+            <Button Name="ButtonOpen" HorizontalAlignment="Center" Height="30" Margin="40,0" Padding="8,0">Open</Button>
+            <Button Name="ButtonQuit" HorizontalAlignment="Center" Height="30" Margin="40,0" Padding="8,0">Quit</Button>
+        </StackPanel>
         
     </Grid>
 </Window>

@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace TimedPlaylists
 {
-    class AlgorithmBase
+    abstract class AlgorithmBase
     {
-        public virtual string Name { get; }
-        public virtual string Description { get; }
-        public virtual string SubDescription { get; }
+        public abstract string Name { get; }
+        public abstract string Description { get; }
+        public abstract string SubDescription { get; }
 
-        public virtual List<Song> Evaluate(TimeSpan desiredLength, List<Song> database, TimeSpan offCount, long maximumAttempts);
+        public abstract List<Song> Evaluate(TimeSpan desiredLength, List<Song> database, TimeSpan offCount, long maximumAttempts);
     }
 
     /// <summary>
@@ -20,8 +20,8 @@ namespace TimedPlaylists
     /// </summary>
     class TotallyBogoRithm : AlgorithmBase
     {
-        public override string Name { get { return "Random Search"; } }
-        public override string Description { get { return "Adds random songs to the playlist, reshuffling until it gets the right combination."; } }
+        public override string Name { get { return "Random Shuffle"; } }
+        public override string Description { get { return "Adds random songs to the playlist, rebuilding until it hits the perfect combination."; } }
         public override string SubDescription 
         { get { return "Best when used with a larger margin of error or smaller playlist, it's all about luck (and probability). It'll work eventually (statistically)."; } }
 
@@ -36,7 +36,7 @@ namespace TimedPlaylists
 
             var turn = new List<Song>();
             long counter = 0;
-            var currentSpam = new TimeSpan();
+            var currentSpan = new TimeSpan();
 
             while (counter < maximumAttempts)
             {
@@ -46,12 +46,35 @@ namespace TimedPlaylists
         }
     }
 
+    class BogoShuffleRithm : AlgorithmBase
+    {
+        public override string Name { get { return "Random Shuffle + Random Fixes"; } }
+        public override string Description { get { return "Adds random songs to the playlist, reviewing random songs until the set works."; } }
+        public override string SubDescription { get { return "The most efficient random will ever be here."; } }
+
+        public override List<Song> Evaluate(TimeSpan desiredLength, List<Song> database, TimeSpan offCount, long maximumAttempts)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     /// <summary>
     /// Applies bogo initial steps, attempts to track back into a successful list.
     /// </summary>
     class GuidedBogoRithm : AlgorithmBase
     {
+        public override string Name { get { return "Guided Random Search"; } }
+        public override string Description { get { return "Adds random songs to the playlist, then tries to fit all of the songs together."; } }
+        public override string SubDescription { get { return "Still takes a long time, but it's much faster than totally random (statistically)."; } }
 
+        public override List<Song> Evaluate(TimeSpan desiredLength, List<Song> database, TimeSpan offCount, long maximumAttempts)
+        {
+            // Summary:
+            // Initially, add songs until near overflow (or overflow - 1?)
+            // 
+            var turn = new List<Song>();
+            return turn;
+        }
     }
 
     /// <summary>
@@ -59,7 +82,15 @@ namespace TimedPlaylists
     /// </summary>
     class AlphabeticalFirstRithm : AlgorithmBase
     {
+        public override string Name { get { return "Alphabetical First"; } }
+        public override string Description { get { return "Attempts to place the songs that are alphabetically first into the list."; } }
+        public override string SubDescription
+        { get { return "This could also sort by any well-ordering sort, which does not affect the list's length, such as song popularity, or something."; } }
 
+        public override List<Song> Evaluate(TimeSpan desiredLength, List<Song> database, TimeSpan offCount, long maximumAttempts)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     /// <summary>
@@ -67,7 +98,34 @@ namespace TimedPlaylists
     /// </summary>
     class FewestSongsRithm : AlgorithmBase
     {
+        public override string Name { get { return "Fewest Songs"; } }
+        public override string Description { get { return "Creates a playlist with the fewest number of songs."; } }
+        public override string SubDescription { get { return "A real algorithm."; } }
 
+        public override List<Song> Evaluate(TimeSpan desiredLength, List<Song> database, TimeSpan offCount, long maximumAttempts)
+        {
+            // Summary:
+            // Add longest songs to the list until it fits or overflows.
+            // Once overflow is reached:
+            // Attempt (NP) to replace all possible songs.
+            // Loop available by long -> short if distance > average
+            // else loop shortest -> longest if distance < average
+            // For each available:
+            //  if simple addition works, cool.
+            //  for each in-list
+            //      if replacing the songs works, do it.
+            var turn = new List<Song>();
+
+            // Find the average song length. Accurate by seconds.
+            double average = 0;
+            foreach (var song in database)
+                average += song.Span.TotalSeconds;
+            average /= database.Count;
+
+
+
+            return turn;
+        }
     }
 
     /// <summary>
@@ -75,6 +133,13 @@ namespace TimedPlaylists
     /// </summary>
     class MostSongsRithm : AlgorithmBase
     {
+        public override string Name { get { return "Most Songs"; } }
+        public override string Description { get { return "Creates a playlist with the most songs possible."; } }
+        public override string SubDescription { get { return "Also a real algorithm"; } }
 
+        public override List<Song> Evaluate(TimeSpan desiredLength, List<Song> database, TimeSpan offCount, long maximumAttempts)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
